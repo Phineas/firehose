@@ -1,0 +1,58 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: firehse
+  labels:
+    app: firehose
+    tier: backend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: firehose
+        tier: backend
+    spec:
+      containers:
+      - name: firehosecluster
+        image: gcr.io/cx-network-204116/firehose
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: PORT
+          value: "8080"
+        - name: MY_BASENAME
+          value: firehose
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: REPLACE_OS_VARS
+          value: "true"
+        - name: RELEASE_CONFIG_DIR
+          value: /beamconfig
+        - name: ERLANG_COOKIE
+          valueFrom:
+            secretKeyRef:
+              name: app-config
+              key: erlang-cookie
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: config-volume
+          mountPath: /beamconfig
+      volumes:
+      - name: config-volume
+        configMap:
+          name: vm-config
