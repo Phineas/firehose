@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: firehse
+  name: firehose
   labels:
     app: firehose
     tier: backend
@@ -16,7 +16,7 @@ spec:
       containers:
       - name: firehosecluster
         image: gcr.io/cx-network-204116/firehose
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         resources:
           requests:
             cpu: 100m
