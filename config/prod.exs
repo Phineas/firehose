@@ -6,7 +6,7 @@ config :event_bus,
 
 config :libcluster,
   topologies: [
-    phxgcpcluster: [
+    firehose: [
       strategy: Cluster.Strategy.Kubernetes,
       config: [
         # mode: :dns,

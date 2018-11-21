@@ -13,8 +13,8 @@ defmodule Firehose.RedisEventBus do
   def init(_) do
     IO.puts "R-init"
     channel = "test"
-    # Let's update the rates info every second
-    {:ok, conn} = Redix.PubSub.start_link(host: "redis-master", port: 6379)
+
+    {:ok, conn} = Redix.PubSub.start_link(host: "localhost", port: 6379)
     Redix.PubSub.subscribe(conn, channel, self())
 
     {:ok, :no_state}

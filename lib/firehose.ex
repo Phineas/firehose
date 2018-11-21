@@ -21,4 +21,9 @@ defmodule Firehose.Hose do
     |> put_resp_header("Access-Control-Allow-Origin", "*")
     |> SSE.stream({[@topic], chunk})
   end
+  
+  match _ do
+    conn
+    |> send_resp(404, Poison.encode!(%{success: false, error: "no_match"}))
+  end
 end
