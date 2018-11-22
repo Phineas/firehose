@@ -21,6 +21,16 @@ defmodule Firehose.Hose do
     |> put_resp_header("Access-Control-Allow-Origin", "*")
     |> SSE.stream({[@topic], chunk})
   end
+
+  get "/infra/nodes" do
+    nodes = Node.list
+    json = %{success: true, nodes: nodes}
+    |> Poison.encode!
+
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, json)
+  end
   
   match _ do
     conn
