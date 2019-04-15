@@ -14,7 +14,7 @@ defmodule Firehose.MixProject do
   def application do
     [
       mod: {Firehose.Application, []},
-      extra_applications: [:logger, :libcluster]
+      extra_applications: [:logger, :libcluster, :httpoison]
     ]
   end
 
@@ -26,7 +26,9 @@ defmodule Firehose.MixProject do
       {:poison, "~> 3.1"},
       {:redix_pubsub, ">= 0.5.0"},
       {:libcluster, "~> 3.0.3"},
-      {:distillery, "~> 2.0"}
+      {:distillery, "~> 2.0"},
+      {:joken, "~> 2.0"},
+      {:httpoison, "~> 1.4"},
     ]
   end
 end
